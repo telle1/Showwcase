@@ -21,21 +21,28 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function EduModal() {
+function EduModal({ setEduList, eduList }) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [schoolName, setSchoolName] = useState();
   const [schoolRes, setSchoolRes] = useState([]);
-  const [showRes, setShowRes] = useState(false);
+  const [eduInfo, setEduInfo] = useState({
+    schoolName: '',
+    degreeType: '',
+    field: '',
+    startDate: '',
+    endDate: '',
+  });
+
+//   console.log('whats in eduinfo', eduInfo);
 
   useEffect(() => {
-    fetch(`http://universities.hipolabs.com/search?name=${schoolName}`)
+    fetch(`http://universities.hipolabs.com/search?name=${eduInfo.schoolName}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.name);
         setSchoolRes(data);
       });
     // .catch((err) => setErrorMsg(err.message));
-  }, [schoolName]);
+  }, [eduInfo.schoolName]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -44,6 +51,20 @@ function EduModal() {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const handleEdu = (e) => {
+      e.preventDefault();
+      setEduList([...eduList, eduInfo ])
+      closeModal();
+      setEduInfo({
+        schoolName: '',
+        degreeType: '',
+        field: '',
+        startDate: '',
+        endDate: '',      
+      })
+
+  }
 
   return (
     <React.Fragment>
@@ -60,21 +81,27 @@ function EduModal() {
           <i className='fas fa-times'></i>
         </div>
 
-        <form className='edu-form'>
+        <form className='edu-form' onSubmit={handleEdu}>
           <div className='input-wrapper school-name'>
             <label htmlFor='school-name'> &nbsp; School Name &nbsp; </label>
             <input
               type='text'
               placeholder='UCLA'
-              value={schoolName}
-              onChange={(e) => setSchoolName(e.target.value)}
+              value={eduInfo.schoolName}
+              onChange={(e) =>
+                setEduInfo({ ...eduInfo, schoolName: e.target.value })
+              }
             ></input>
           </div>
 
-          {schoolName && schoolName.length > 0 ? (
+          {eduInfo.schoolName && eduInfo.schoolName.length > 0 ? (
             <ul className='search-results'>
               {schoolRes.map((school) => (
-                <li onClick={(e) => setSchoolName(school.name)}>
+                <li
+                  onClick={(e) =>
+                    setEduInfo({ ...eduInfo, schoolName: school.name })
+                  }
+                >
                   {school.name}
                 </li>
               ))}
@@ -83,38 +110,54 @@ function EduModal() {
 
           <div className='input-wrapper'>
             <label htmlFor='degree-type'> &nbsp; Degree Type &nbsp;</label>
-            <select name='degree-type'>
-              <option disabled selected value>
-                {' '}
-                -- Select --{' '}
-              </option>
+            <select
+              name='degree-type'
+              onChange={(e) =>
+                setEduInfo({ ...eduInfo, degreeType: e.target.value })
+              }
+            >
+              <option defaultValue> -- Select -- </option>
               <option value='Primary education' name='Primary education'>
                 Primary Education
               </option>
-              <option value='HS' name='HS'>
+              <option value='High School' name='HS'>
                 High School
               </option>
-              <option value='AD' name='AD'>
+              <option value='Associate Degree' name='AD'>
                 Associate Degree
               </option>
-              <option value='BD' name='BD'>
+              <option value='Bachelor Degree' name='BD'>
                 Bachelor Degree
               </option>
-              <option value='MD' name='MD'>
+              <option value='Master Degree' name='MD'>
                 Master Degree
               </option>
-              <option value='DD' name='DD'>
-                Doctorate Degree{' '}
+              <option value='Doctorate Degree' name='DD'>
+                Doctorate Degree
               </option>
-              <option value='other' name='other'>
+              <option value='Other' name='other'>
                 Other
               </option>
             </select>
           </div>
 
+          {/* {eduInfo.degreeType == 'Other' ? 
+          <div>
+            <p>Please specify degree:</p>
+            <input type="text" onChange={ (e) => setEduInfo({ ...eduInfo, degreeType: e.target.value}) }>
+
+            </input>
+            </div> : null} */}
+
           <div className='input-wrapper'>
             <label htmlFor='field'> &nbsp; Field of Study &nbsp;</label>
-            <input type='text' placeholder='Psychology'></input>
+            <input
+              type='text'
+              placeholder='Psychology'
+              onChange={(e) =>
+                setEduInfo({ ...eduInfo, field: e.target.value })
+              }
+            ></input>
           </div>
 
           <div className='edu-dates'>
@@ -123,14 +166,24 @@ function EduModal() {
                 {' '}
                 &nbsp; From &nbsp;
               </label>
-              <input type='date'></input>
+              <input
+                type='date'
+                onChange={(e) =>
+                  setEduInfo({ ...eduInfo, startDate: e.target.value })
+                }
+              ></input>
             </div>
             <div className='input-wrapper'>
               <label className='date' htmlFor='test'>
                 {' '}
                 &nbsp; To &nbsp;
               </label>
-              <input type='date'></input>
+              <input
+                type='date'
+                onChange={(e) =>
+                  setEduInfo({ ...eduInfo, endDate: e.target.value })
+                }
+              ></input>
             </div>
           </div>
 
