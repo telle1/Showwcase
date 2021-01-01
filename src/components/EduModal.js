@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import './EduModal.css'
 
 const customStyles = {
   overlay: {
     backgroundColor: 'rgb(40,40,40, 0.8)',
   },
   content: {
+    // padding: '80px 50px',
+    width: '50%',
+    height: '50%',
     top: '50%',
     left: '50%',
     right: 'auto',
@@ -18,7 +22,26 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 function EduModal() {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [schoolName, setSchoolName] = useState()
+  const [schoolRes, setSchoolRes] = useState([])
+  const [showRes, setShowRes] = useState(false)
+
+  useEffect(() => {
+
+    fetch(
+        `http://universities.hipolabs.com/search?name=${schoolName}`
+      )
+        .then((res) => res.json())
+        .then((data) => { 
+            console.log(data.name)
+            setSchoolRes(data)
+        })
+        // .catch((err) => setErrorMsg(err.message));
+  }, [schoolName])
+
+
+  
 
   const openModal = () => {
     setIsOpen(true);
@@ -39,14 +62,58 @@ function EduModal() {
         contentLabel='Education Modal'
       >
             <h2>Education Information</h2>
-            <button onClick={closeModal}>close</button>
-            <form>
-                <input type='text' placeholder='School'></input>
-                <input type='text' placeholder='Degree'></input>
-                <input type='text' placeholder='Field of Study'></input>
-                Dates Attended
+            {/* <button onClick={closeModal}>close</button> */}
+
+            <form className="edu-modal">
+
+                <div className="test1 school-name">
+                <label htmlFor="test"> &nbsp; School Name &nbsp;</label>
+                <input type='text' placeholder='UCLA' value={schoolName} onChange={(e)=>setSchoolName(e.target.value)}></input>
+                </div>
+
+               {schoolName && schoolName.length > 0 ? 
+                <ul className="search-results">
+                    {schoolRes.map(school => (
+                        <li onClick={(e)=>setSchoolName(school.name)}>
+                            {school.name}
+                        </li>
+                    ))}
+                </ul> : null}
+                
+                <div className="test1">
+                    <label htmlFor="test"> &nbsp; Degree Type &nbsp;</label>
+                    <select name="degree-type">
+                        <option disabled selected value> -- Select -- </option>
+                        <option value = "Primary education" name="Primary education">Primary Education</option>
+                        <option value = "HS" name="HS">High School</option>
+                        <option value = "AD" name="AD">Associate Degree</option>
+                        <option value = "BD" name="BD">Bachelor Degree</option>
+                        <option value = "MD" name="MD">Master Degree</option>
+                        <option value = "DD" name="DD">Doctorate Degree </option>
+                        <option value = "other" name="other">Other</option>
+                    </select>
+                </div>
+                
+                <div className="test1">
+                    <label htmlFor="test"> &nbsp; Field of Study &nbsp;</label>
+                    <input type='text' placeholder='Psychology'></input>
+                </div>
+              
+                <div className="test2">
+                    <div className="test1">
+                        <label className="date" htmlFor="test"> &nbsp; From &nbsp;</label>
+                        <input type="date"></input>
+                    </div>
+                    <div className="test1">
+                        <label className="date" htmlFor="test"> &nbsp; To &nbsp;</label>
+                        <input type="date"></input>    
+                    </div>
+           
+                </div>
+
                 <button type='submit'>Save</button>
             </form>
+
         </Modal>
     </React.Fragment>
   );
