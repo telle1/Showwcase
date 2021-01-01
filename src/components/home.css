@@ -2,6 +2,7 @@
     text-align: center;
     font-size: 60px;
     color: #a9a9a9;
+    margin-bottom: 20px;
 }
 
 .education-header button {
@@ -19,25 +20,25 @@
     display: flex;
     justify-content: space-between;
     width: 90%;
-    margin: auto;
-    border: 1px solid red;
+    margin: 30px auto;
 }
 
 .side-bar{
     width: 25%;
     border: 1px solid blue;
+    padding: 20px;
     height: 500px;
     overflow-y: scroll;
 }
 
 .ed-item{
     width: 70%;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
 }
 
 .ed-item div {
     border: 1px solid blue;
     height: 200px;
     padding: 20px;
-
+    margin-bottom: 25px;
 }

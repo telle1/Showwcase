@@ -54,7 +54,13 @@ function EduModal({ setEduList, eduList }) {
 
   const handleEdu = (e) => {
       e.preventDefault();
-      setEduList([...eduList, eduInfo ])
+      setEduList([eduInfo, ...eduList])
+      localStorage.setItem(
+        'edu-list',
+        JSON.stringify([eduInfo, eduList])
+      );
+
+
       closeModal();
       setEduInfo({
         schoolName: '',
