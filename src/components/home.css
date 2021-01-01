@@ -1,0 +1,43 @@
+#home h1{
+    text-align: center;
+    font-size: 60px;
+    color: #a9a9a9;
+}
+
+.education-header button {
+    display: block;
+    margin: auto;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #636EF8;
+    color: white;
+}
+
+.education-wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+    border: 1px solid red;
+}
+
+.side-bar{
+    width: 25%;
+    border: 1px solid blue;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.ed-item{
+    width: 70%;
+    border: 1px solid blue;
+}
+
+.ed-item div {
+    border: 1px solid blue;
+    height: 200px;
+    padding: 20px;
+
+}
