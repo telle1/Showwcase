@@ -1,0 +1,42 @@
+#welcome{
+    height: 100vh;
+    box-sizing: border-box;
+    background: url('../../images/welcome_page.png') no-repeat center center/ cover;
+    padding: 200px 80px;
+}
+
+.welcome-input{
+    width: 600px;
+}
+
+.welcome-input p {
+    width: 80%;
+    font-size: 20px;
+    color: #636EF8;
+}
+
+.welcome-input h1{
+    color: #a9a9a9;
+    font-size: 60px;
+    margin: 0px;
+}
+
+.welcome-input input {
+    width: 70%;
+    margin-top: 70px;
+    padding: 10px;
+}
+
+/* .welcome-input button{
+    padding: 12px;
+    border: none;
+    outline: none;
+    background-color: #636EF8;
+    color: white;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #4450fa;
+
+} */

@@ -1,0 +1,7 @@
+.side-bar{
+    width: 25%;
+    color: gray;
+    padding: 20px;
+    height: 500px;
+    overflow-y: scroll;
+}

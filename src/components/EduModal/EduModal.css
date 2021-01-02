@@ -1,0 +1,80 @@
+/* Close button */
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #636ef8;
+  background-color: white;
+  padding: 10px;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+/* Live search results dropdown */
+.search-results {
+  border: 1px solid gray;
+  padding: 0 0;
+  margin: 0 0;
+  height: 200px;
+  overflow-y: scroll;
+  list-style: none;
+}
+
+.search-results li {
+  padding: 10px;
+}
+
+.search-results li:hover {
+  background-color: #dedede;
+  cursor: pointer;
+}
+
+/* Inputs */
+.input-wrapper {
+  position: relative;
+  margin: 50px 0px;
+}
+
+input[type='text'],
+input[type='date'],
+select, textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 2px solid #636ef8;
+  border-radius: 5px;
+  padding: 10px;
+  font-family: 'Arial';
+}
+
+.school-name {
+  margin: 0 0;
+}
+
+.edu-dates {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edu-dates div {
+  width: 48%;
+  margin: 0px 0px 40px 0px;
+}
+
+/* Input label */
+label {
+  position: absolute;
+  top: -25%;
+  left: 20px;
+  background-color: white;
+}
+
+.activities {
+  top: -10%;
+}
+
+/* Save button */
+.edu-form button {
+  width: 100%;
+}
