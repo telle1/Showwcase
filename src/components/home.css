@@ -1,18 +1,28 @@
+#home{
+    background: url('../images/purple_shape.png') no-repeat left top/cover;
+}
+
 #home h1{
+    padding: 20px;
+    margin: 0px 0px 20px;
     text-align: center;
     font-size: 60px;
-    color: #a9a9a9;
-    margin-bottom: 20px;
+    color: white;
 }
 
 .education-header button {
     display: block;
+    border: 1px solid white;
     margin: auto;
     padding: 12px;
-    border: none;
     border-radius: 5px;
     outline: none;
-    background-color: #636EF8;
+    background-color: white;
+    color: #636EF8;
+}
+
+.education-header button:hover{
+    background-color:  #636EF8;
     color: white;
 }
 
@@ -20,12 +30,15 @@
     display: flex;
     justify-content: space-between;
     width: 90%;
-    margin: 30px auto;
+    margin: 80px auto;
 }
 
 .side-bar{
     width: 25%;
-    border: 1px solid blue;
+    color: gray;
+    border: 2px solid #dcddf1;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(99, 110, 248, 0.2);
     padding: 20px;
     height: 500px;
     overflow-y: scroll;
@@ -36,9 +49,38 @@
     /* border: 1px solid blue; */
 }
 
-.ed-item div {
-    border: 1px solid blue;
-    height: 200px;
+.ed-item .ed-details {
+    border: 2px solid #dcddf1;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(99, 110, 248, 0.2);
+    height: 150px;
     padding: 20px;
     margin-bottom: 25px;
+    position: relative;
+}
+
+.side-bar h2, .ed-details h2 {
+    color: #636EF8;
+}
+
+.side-bar div {
+    color: grey;
+}
+
+.ed-details h2{
+    margin-bottom: 20px;
+}
+
+.ed-details p {
+    margin: 10px 0px;
+}
+
+.ed-details .close {
+    position: absolute;
+    right: 5px;
+}
+
+
+sup {
+    color: gray;
 }

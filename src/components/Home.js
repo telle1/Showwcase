@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generatePath, useLocation } from 'react-router-dom';
 import './home.css';
 import EduModal from './EduModal'
+import moment from 'moment'
 
 
 function Home() {
@@ -9,10 +10,19 @@ function Home() {
   const [name, setName] = useState("" || location.state.name)
   const [eduList, setEduList] = useState([])
 
+  //Sort by newest education first
+  eduList.sort((a,b) => {
+    var c = new Date(a.endDate)
+    var d= new Date(b.endDate)
+    return d-c;
+  }
+  )
+
+  console.log('eduList', eduList)
+
   if (location.state.name){
     localStorage.setItem(
         'name', location.state.name
-        // JSON.stringify([...nominations, movie])
       );
   }
 
@@ -34,15 +44,16 @@ function Home() {
   return (
     <section id='home'>
       <div className='education-header'>
-        <h1>{name}'s education page</h1>
+        <h1>{name}'s education showcase</h1>
 
         <EduModal setEduList={setEduList} eduList={eduList}></EduModal>
       </div>
 
       <div className='education-wrapper'>
         <div className='side-bar'>
+            <h2>My Education</h2>
             {eduList.map(eduItem => (
-                    <div>{eduItem.schoolName}</div>
+                    <p>{eduItem.schoolName}</p>
                 ))}
         </div>
         <div className='ed-item'>
@@ -66,12 +77,26 @@ function EduEntry({ eduItem, eduList, setEduList }){
     }
 
     return (
-    <div>
-        <h2><strong>{eduItem.schoolName}</strong></h2>
-        <p>{eduItem.degreeType} {eduItem.field}</p>
-        <p>{eduItem.startDate} {eduItem.endDate}</p>
-        <button onClick={deleteEduItem}>Delete</button>
+    <div className="ed-details">
+
+        <div className='close' onClick={deleteEduItem}>
+          <i className='fas fa-times'></i>
+        </div>
+
+        <h2>{eduItem.schoolName}</h2>
+        <p>
+          {eduItem.degreeType}
+          {eduItem.field ? <span> in {eduItem.field}</span> : null}
+        </p>
+        <sup> <LocalTime date={eduItem.startDate}/> - <LocalTime date={eduItem.endDate}/> </sup>
+        {eduItem.activities ? 
+        <p>Activities: {eduItem.activities}</p>    
+        : null }
     </div>
     )
+}
+
+function LocalTime ({date}){
+  return moment.utc(date).format('MM/DD/YY')
 }
 

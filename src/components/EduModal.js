@@ -23,16 +23,18 @@ Modal.setAppElement('#root');
 
 function EduModal({ setEduList, eduList }) {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false)
   const [schoolRes, setSchoolRes] = useState([]);
   const [eduInfo, setEduInfo] = useState({
     schoolName: '',
     degreeType: '',
-    field: '',
+    field: null,
     startDate: '',
     endDate: '',
+    activities: null,
   });
 
-//   console.log('whats in eduinfo', eduInfo);
+  console.log('whats in eduinfo', eduInfo);
 
   useEffect(() => {
     fetch(`http://universities.hipolabs.com/search?name=${eduInfo.schoolName}`)
@@ -54,10 +56,10 @@ function EduModal({ setEduList, eduList }) {
 
   const handleEdu = (e) => {
       e.preventDefault();
-      setEduList([eduInfo, ...eduList])
+      setEduList([...eduList, eduInfo])
       localStorage.setItem(
         'edu-list',
-        JSON.stringify([eduInfo, eduList])
+        JSON.stringify([...eduList, eduInfo])
       );
 
 
@@ -90,23 +92,25 @@ function EduModal({ setEduList, eduList }) {
         <form className='edu-form' onSubmit={handleEdu}>
           <div className='input-wrapper school-name'>
             <label htmlFor='school-name'> &nbsp; School Name &nbsp; </label>
-            <input
+            <input required
               type='text'
               placeholder='UCLA'
               value={eduInfo.schoolName}
-              onChange={(e) =>
+              onChange={(e) => {
+                setShowResults(true)
                 setEduInfo({ ...eduInfo, schoolName: e.target.value })
-              }
+              }}
             ></input>
           </div>
 
-          {eduInfo.schoolName && eduInfo.schoolName.length > 0 ? (
+          {showResults && eduInfo.schoolName.length > 0 ? (
             <ul className='search-results'>
               {schoolRes.map((school) => (
                 <li
-                  onClick={(e) =>
+                  onClick={(e) => {
                     setEduInfo({ ...eduInfo, schoolName: school.name })
-                  }
+                    setShowResults(false)
+                  }}
                 >
                   {school.name}
                 </li>
@@ -116,7 +120,7 @@ function EduModal({ setEduList, eduList }) {
 
           <div className='input-wrapper'>
             <label htmlFor='degree-type'> &nbsp; Degree Type &nbsp;</label>
-            <select
+            <select required
               name='degree-type'
               onChange={(e) =>
                 setEduInfo({ ...eduInfo, degreeType: e.target.value })
@@ -166,13 +170,21 @@ function EduModal({ setEduList, eduList }) {
             ></input>
           </div>
 
+          <div className='input-wrapper'>
+              <label className="activities" htmlFor='activites'> &nbsp; Activities &nbsp; </label>
+              <textarea rows="4" placeholder='Club Tennis' onChange={(e) =>
+                  setEduInfo({ ...eduInfo, activities: e.target.value })
+                } ></textarea>                   
+          </div>
+
+
           <div className='edu-dates'>
             <div className='input-wrapper'>
               <label className='date' htmlFor='test'>
                 {' '}
                 &nbsp; From &nbsp;
               </label>
-              <input
+              <input required
                 type='date'
                 onChange={(e) =>
                   setEduInfo({ ...eduInfo, startDate: e.target.value })
@@ -184,7 +196,7 @@ function EduModal({ setEduList, eduList }) {
                 {' '}
                 &nbsp; To &nbsp;
               </label>
-              <input
+              <input required
                 type='date'
                 onChange={(e) =>
                   setEduInfo({ ...eduInfo, endDate: e.target.value })
@@ -192,6 +204,7 @@ function EduModal({ setEduList, eduList }) {
               ></input>
             </div>
           </div>
+
 
           <button type='submit'>Save</button>
         </form>
