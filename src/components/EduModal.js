@@ -23,7 +23,7 @@ Modal.setAppElement('#root');
 
 function EduModal({ setEduList, eduList }) {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [showResults, setShowResults] = useState(false)
+  const [showResults, setShowResults] = useState(false);
   const [schoolRes, setSchoolRes] = useState([]);
   const [eduInfo, setEduInfo] = useState({
     schoolName: '',
@@ -55,29 +55,22 @@ function EduModal({ setEduList, eduList }) {
   };
 
   const handleEdu = (e) => {
-      e.preventDefault();
-      setEduList([...eduList, eduInfo])
-      localStorage.setItem(
-        'edu-list',
-        JSON.stringify([...eduList, eduInfo])
-      );
-
-
-      closeModal();
-      setEduInfo({
-        schoolName: '',
-        degreeType: '',
-        field: '',
-        startDate: '',
-        endDate: '',      
-      })
-
-  }
+    e.preventDefault();
+    setEduList([...eduList, eduInfo]);
+    localStorage.setItem('edu-list', JSON.stringify([...eduList, eduInfo]));
+    closeModal();
+    setEduInfo({
+      schoolName: '',
+      degreeType: '',
+      field: '',
+      startDate: '',
+      endDate: '',
+    });
+  };
 
   return (
     <React.Fragment>
       <button onClick={openModal}>Add new education</button>
-
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -92,13 +85,14 @@ function EduModal({ setEduList, eduList }) {
         <form className='edu-form' onSubmit={handleEdu}>
           <div className='input-wrapper school-name'>
             <label htmlFor='school-name'> &nbsp; School Name &nbsp; </label>
-            <input required
+            <input
+              required
               type='text'
               placeholder='UCLA'
               value={eduInfo.schoolName}
               onChange={(e) => {
-                setShowResults(true)
-                setEduInfo({ ...eduInfo, schoolName: e.target.value })
+                setShowResults(true);
+                setEduInfo({ ...eduInfo, schoolName: e.target.value });
               }}
             ></input>
           </div>
@@ -108,8 +102,8 @@ function EduModal({ setEduList, eduList }) {
               {schoolRes.map((school) => (
                 <li
                   onClick={(e) => {
-                    setEduInfo({ ...eduInfo, schoolName: school.name })
-                    setShowResults(false)
+                    setEduInfo({ ...eduInfo, schoolName: school.name });
+                    setShowResults(false);
                   }}
                 >
                   {school.name}
@@ -120,13 +114,14 @@ function EduModal({ setEduList, eduList }) {
 
           <div className='input-wrapper'>
             <label htmlFor='degree-type'> &nbsp; Degree Type &nbsp;</label>
-            <select required
+            <select
+              required
               name='degree-type'
               onChange={(e) =>
                 setEduInfo({ ...eduInfo, degreeType: e.target.value })
               }
             >
-              <option defaultValue> -- Select -- </option>
+              <option value=''> -- Select -- </option>
               <option value='Primary education' name='Primary education'>
                 Primary Education
               </option>
@@ -151,14 +146,6 @@ function EduModal({ setEduList, eduList }) {
             </select>
           </div>
 
-          {/* {eduInfo.degreeType == 'Other' ? 
-          <div>
-            <p>Please specify degree:</p>
-            <input type="text" onChange={ (e) => setEduInfo({ ...eduInfo, degreeType: e.target.value}) }>
-
-            </input>
-            </div> : null} */}
-
           <div className='input-wrapper'>
             <label htmlFor='field'> &nbsp; Field of Study &nbsp;</label>
             <input
@@ -171,12 +158,18 @@ function EduModal({ setEduList, eduList }) {
           </div>
 
           <div className='input-wrapper'>
-              <label className="activities" htmlFor='activites'> &nbsp; Activities &nbsp; </label>
-              <textarea rows="4" placeholder='Club Tennis' onChange={(e) =>
-                  setEduInfo({ ...eduInfo, activities: e.target.value })
-                } ></textarea>                   
+            <label className='activities' htmlFor='activites'>
+              {' '}
+              &nbsp; Activities &nbsp;{' '}
+            </label>
+            <textarea
+              rows='4'
+              placeholder='Club Tennis'
+              onChange={(e) =>
+                setEduInfo({ ...eduInfo, activities: e.target.value })
+              }
+            ></textarea>
           </div>
-
 
           <div className='edu-dates'>
             <div className='input-wrapper'>
@@ -184,7 +177,8 @@ function EduModal({ setEduList, eduList }) {
                 {' '}
                 &nbsp; From &nbsp;
               </label>
-              <input required
+              <input
+                required
                 type='date'
                 onChange={(e) =>
                   setEduInfo({ ...eduInfo, startDate: e.target.value })
@@ -196,7 +190,8 @@ function EduModal({ setEduList, eduList }) {
                 {' '}
                 &nbsp; To &nbsp;
               </label>
-              <input required
+              <input
+                required
                 type='date'
                 onChange={(e) =>
                   setEduInfo({ ...eduInfo, endDate: e.target.value })
@@ -204,7 +199,6 @@ function EduModal({ setEduList, eduList }) {
               ></input>
             </div>
           </div>
-
 
           <button type='submit'>Save</button>
         </form>
