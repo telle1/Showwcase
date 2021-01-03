@@ -19,6 +19,8 @@ function EduEntry({ eduItem, eduList, setEduList }){
         <p>
           {eduItem.degreeType}
           {eduItem.field ? <span> in {eduItem.field}</span> : null}
+          {eduItem.grade ? <span>, {eduItem.grade} </span> : null}
+
         </p>
         <sup> 
           <LocalTime date={eduItem.startDate}/> - <LocalTime date={eduItem.endDate}/>

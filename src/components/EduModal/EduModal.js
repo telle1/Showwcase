@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
 import './EduModal.css';
+import Modal from 'react-modal';
+import _ from "lodash";
+const axios = require('axios');
 
 const customStyles = {
   overlay: {
@@ -23,6 +25,7 @@ Modal.setAppElement('#root');
 
 function EduModal({ setEduList, eduList }) {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true)
   const [showResults, setShowResults] = useState(false);
   const [schoolRes, setSchoolRes] = useState([]);
   const [eduInfo, setEduInfo] = useState({
@@ -31,20 +34,41 @@ function EduModal({ setEduList, eduList }) {
     field: null,
     startDate: '',
     endDate: '',
+    grade: null,
     activities: null,
   });
 
   console.log('whats in eduinfo', eduInfo);
+  console.log('whats in school res', schoolRes)
+
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+
+  const getSchools = async () => {
+    setLoading(true)
+    setSchoolRes([])
+    try { 
+      const res = await axios.get(`http://universities.hipolabs.com/search?name=${eduInfo.schoolName}`,
+      { cancelToken: source.token })
+      setSchoolRes(res.data)
+      setLoading(false)
+      console.log('results', res.data)
+    } catch(err){
+      if (axios.isCancel(err)){
+        console.log('Request cancelled', err.message)
+      }
+    }
+  }
 
   useEffect(() => {
-    fetch(`http://universities.hipolabs.com/search?name=${eduInfo.schoolName}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.name);
-        setSchoolRes(data);
-      });
-    // .catch((err) => setErrorMsg(err.message));
+    if (eduInfo.schoolName.length > 0){
+      getSchools()
+    }
+    return () => {
+      source.cancel("Axios request cancelled");
+    };
   }, [eduInfo.schoolName]);
+
 
   const openModal = () => {
     setIsOpen(true);
@@ -82,6 +106,8 @@ function EduModal({ setEduList, eduList }) {
           <i className='fas fa-times'></i>
         </div>
 
+
+
         <form className='edu-form' onSubmit={handleEdu}>
           <div className='input-wrapper school-name'>
             <label htmlFor='school-name'> &nbsp; School Name &nbsp; </label>
@@ -96,9 +122,12 @@ function EduModal({ setEduList, eduList }) {
               }}
             ></input>
           </div>
+          
+          
 
           {showResults && eduInfo.schoolName.length > 0 ? (
             <ul className='search-results'>
+              {loading ? <li>Loading...</li> : null }
               {schoolRes.map((school) => (
                 <li
                   onClick={(e) => {
@@ -158,6 +187,17 @@ function EduModal({ setEduList, eduList }) {
           </div>
 
           <div className='input-wrapper'>
+            <label htmlFor='grade'> &nbsp; Grade &nbsp;</label>
+            <input
+              type='text'
+              placeholder='3.9'
+              onChange={(e) =>
+                setEduInfo({ ...eduInfo, grade: e.target.value })
+              }
+            ></input>
+          </div>
+
+          <div className='input-wrapper'>
             <label className='activities' htmlFor='activites'>
               {' '}
               &nbsp; Activities &nbsp;{' '}
@@ -208,3 +248,4 @@ function EduModal({ setEduList, eduList }) {
 }
 
 export default EduModal;
+

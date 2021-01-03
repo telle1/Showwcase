@@ -6,7 +6,7 @@ import './welcome.css'
 function Welcome(){
 
     const history = useHistory();
-    const [name, setName] = useState()
+    const [name, setName] = useState("")
 
    const handleName = () => {
        history.push({pathname:'/home', state:{name: name}})

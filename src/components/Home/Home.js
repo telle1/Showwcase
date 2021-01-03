@@ -42,7 +42,9 @@ function Home() {
           <SideBar eduList={eduList}/>
         </div>
         <div className='ed-item'>
-          {eduList.map((eduItem,i) => <EduEntry key={i} eduItem={eduItem} eduList={eduList} setEduList={setEduList}/>)}
+          {eduList.map((eduItem,i) => 
+          <EduEntry key={i} eduItem={eduItem} eduList={eduList} setEduList={setEduList}/>
+          )}
         </div>
       </div>
     </section>
