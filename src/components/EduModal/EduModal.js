@@ -54,7 +54,7 @@ function EduModal() {
     setSchoolRes([]);
     try {
       const res = await axios.get(
-        `http://universities.hipolabs.com/search?name=${debouncedSchoolName}`,
+        `https://universities.hipolabs.com/search?name=${debouncedSchoolName}`,
         { cancelToken: source.token }
       );
       setSchoolRes(res.data);
