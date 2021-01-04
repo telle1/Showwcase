@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { EduListContext } from '../EduListContext'
+import { EduListContext } from '../EduListContext';
 import './EduModal.css';
 import Modal from 'react-modal';
 import _ from 'lodash';
@@ -26,11 +26,11 @@ Modal.setAppElement('#root');
 
 function EduModal() {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [schoolRes, setSchoolRes] = useState([]);
-  const [debouncedSchoolName, setDebouncedSchoolName] = useState("");
-  const { eduList, setEduList } = useContext(EduListContext)
+  const [debouncedSchoolName, setDebouncedSchoolName] = useState('');
+  const { eduList, setEduList } = useContext(EduListContext);
 
   const [eduInfo, setEduInfo] = useState({
     schoolName: '',
@@ -42,39 +42,44 @@ function EduModal() {
     activities: null,
   });
 
-  console.log('whats in eduinfo', eduInfo);
-  console.log('whats in school res', schoolRes);
-  console.log('whats in debounce', debouncedSchoolName);
+  // console.log('whats in eduinfo', eduInfo);
+  // console.log('whats in school res', schoolRes);
+  // console.log('whats in debounce', debouncedSchoolName);
 
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
 
   const getSchools = async () => {
-    setLoading(true)
-    setSchoolRes([])
-    try { 
-      const res = await axios.get(`http://universities.hipolabs.com/search?name=${debouncedSchoolName}`,
-      { cancelToken: source.token })
-      setSchoolRes(res.data)
-      setLoading(false)
-      console.log('results', res.data)
-    } catch(err){
-      if (axios.isCancel(err)){
-        console.log('Previous request cancelled', err.message)
+    setLoading(true);
+    setSchoolRes([]);
+    try {
+      const res = await axios.get(
+        `http://universities.hipolabs.com/search?name=${debouncedSchoolName}`,
+        { cancelToken: source.token }
+      );
+      setSchoolRes(res.data);
+      setLoading(false);
+      console.log('results', res.data);
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        console.log('Previous request cancelled', err.message);
       }
     }
-  }
+  };
 
   useEffect(() => {
-    if (eduInfo.schoolName.length > 0){
+    if (eduInfo.schoolName.length > 0) {
       getSchools();
     }
     return () => {
-      source.cancel("Axios request cancelled");
+      source.cancel('Axios request cancelled');
     };
   }, [debouncedSchoolName]);
 
-  const debounce = useCallback(_.debounce(input => setDebouncedSchoolName(input), 300),[]);
+  const debounce = useCallback(
+    _.debounce((input) => setDebouncedSchoolName(input), 300),
+    []
+  );
 
   const openModal = () => {
     setIsOpen(true);
@@ -98,7 +103,6 @@ function EduModal() {
     });
   };
 
-
   return (
     <React.Fragment>
       <button onClick={openModal}>Add new education</button>
@@ -115,7 +119,10 @@ function EduModal() {
 
         <form className='edu-form' onSubmit={handleEdu}>
           <div className='input-wrapper school-name'>
-            <label htmlFor='school-name'> &nbsp; School Name &nbsp; </label>
+            <label htmlFor='school-name'>
+              {' '}
+              &nbsp; School Name <span className='asterisk'>*</span> &nbsp;{' '}
+            </label>
             <input
               required
               type='text'
@@ -124,17 +131,17 @@ function EduModal() {
               onChange={(e) => {
                 setShowResults(true);
                 setEduInfo({ ...eduInfo, schoolName: e.target.value });
-                debounce(e.target.value)
+                debounce(e.target.value);
               }}
             ></input>
           </div>
-          
 
           {showResults && eduInfo.schoolName.length > 0 ? (
             <ul className='search-results'>
-              {loading ? <li>Loading...</li> : null }
+              {loading ? <li>Loading...</li> : null}
               {schoolRes.map((school, i) => (
-                <li key={i}
+                <li
+                  key={i}
                   onClick={(e) => {
                     setEduInfo({ ...eduInfo, schoolName: school.name });
                     setShowResults(false);
@@ -147,7 +154,10 @@ function EduModal() {
           ) : null}
 
           <div className='input-wrapper'>
-            <label htmlFor='degree-type'> &nbsp; Degree Type &nbsp;</label>
+            <label htmlFor='degree-type'>
+              {' '}
+              &nbsp; Degree Type <span className='asterisk'>*</span> &nbsp;
+            </label>
             <select
               required
               name='degree-type'
@@ -220,7 +230,7 @@ function EduModal() {
             <div className='input-wrapper'>
               <label className='date' htmlFor='test'>
                 {' '}
-                &nbsp; From &nbsp;
+                &nbsp; From <span className='asterisk'>*</span> &nbsp;
               </label>
               <input
                 required
@@ -233,7 +243,7 @@ function EduModal() {
             <div className='input-wrapper'>
               <label className='date' htmlFor='test'>
                 {' '}
-                &nbsp; To &nbsp;
+                &nbsp; To <span className='asterisk'>*</span> &nbsp;
               </label>
               <input
                 required
@@ -245,6 +255,10 @@ function EduModal() {
             </div>
           </div>
 
+          <div className="required-indicator">
+              <span className="asterisk">*</span> indicates required field
+          </div>
+          
           <button type='submit'>Save</button>
         </form>
       </Modal>
@@ -253,4 +267,3 @@ function EduModal() {
 }
 
 export default EduModal;
-

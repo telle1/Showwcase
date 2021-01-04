@@ -1,24 +1,21 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './home.css';
-import EduModal from '../EduModal/EduModal'
-import SideBar from './Sidebar'
-import EduEntry from './EduEntry'
-import { EduListContext } from '../EduListContext'
+import EduModal from '../EduModal/EduModal';
+import SideBar from './Sidebar';
+import EduEntry from './EduEntry';
+import { EduListContext } from '../EduListContext';
 
 function Home() {
   const location = useLocation();
-  const [eduList, setEduList] = useState([])
+  const [eduList, setEduList] = useState([]);
 
   //Sort by newest education first
-  eduList.sort((a,b) => {
-    var c = new Date(a.endDate)
-    var d= new Date(b.endDate)
-    return d-c;
-  }
-  )
-
-  console.log('eduList', eduList)
+  eduList.sort((a, b) => {
+    var c = new Date(a.endDate);
+    var d = new Date(b.endDate);
+    return d - c;
+  });
 
   useEffect(() => {
     const eduListStored = localStorage.getItem('edu-list');
@@ -28,29 +25,27 @@ function Home() {
     }
   }, []);
 
-
   return (
-    <EduListContext.Provider value={{eduList, setEduList}}>
-    <section id='home'>
-      <div className='education-header'>
-        <h1>{location.state.name}'s education showcase</h1>
-        <EduModal/>
-      </div>
+    <EduListContext.Provider value={{ eduList, setEduList }}>
+      <section id='home'>
+        <div className='education-header'>
+          <h1>{location.state.name}'s education showcase</h1>
+          <EduModal />
+        </div>
 
-      <div className='education-wrapper'>
-        <div className='side-bar'>
-          <SideBar/>
+        <div className='education-wrapper'>
+          <div className='side-bar'>
+            <SideBar />
+          </div>
+          <div className='ed-item'>
+            {eduList.map((eduItem, i) => (
+              <EduEntry key={i} eduItem={eduItem} />
+            ))}
+          </div>
         </div>
-        <div className='ed-item'>
-          {eduList.map((eduItem,i) => 
-          <EduEntry key={i} eduItem={eduItem}/>
-          )}
-        </div>
-      </div>
-    </section>
+      </section>
     </EduListContext.Provider>
   );
 }
 
 export default Home;
-

@@ -3,7 +3,7 @@
 }
 
 .ed-item .ed-details {
-    height: 150px;
+    /* height: 150px; */
     padding: 20px;
     margin-bottom: 25px;
     position: relative;
@@ -23,3 +23,13 @@ sup {
     position: absolute;
     right: 5px;
 }
+
+
+@media (max-width: 800px) {
+    .ed-item{
+        width: 100%;
+    }
+    .ed-item .ed-details{
+        width: 100%;
+    }
+  }

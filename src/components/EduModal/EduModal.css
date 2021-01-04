@@ -59,7 +59,7 @@ select, textarea {
 
 .edu-dates div {
   width: 48%;
-  margin: 0px 0px 40px 0px;
+  margin: 0px 0px 30px 0px;
 }
 
 /* Input label */
@@ -77,4 +77,13 @@ label {
 /* Save button */
 .edu-form button {
   width: 100%;
+}
+
+/* Asterisk */
+.asterisk{
+  color: red;
+}
+
+.required-indicator{
+  margin-bottom: 10px;
 }
