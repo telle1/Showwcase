@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { EduListContext } from '../EduListContext'
 import moment from 'moment'
 import './eduentry.css'
 
-function EduEntry({ eduItem, eduList, setEduList }){
+function EduEntry({ eduItem }){
+
+  const { eduList, setEduList } = useContext(EduListContext)
 
     const deleteEduItem = () => {
         const rmvItem = eduList.filter(eduEntry => eduEntry !== eduItem)

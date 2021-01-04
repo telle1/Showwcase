@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { EduListContext } from '../EduListContext'
 import './EduModal.css';
 import Modal from 'react-modal';
 import _ from 'lodash';
@@ -23,12 +24,13 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function EduModal({ setEduList, eduList }) {
+function EduModal() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true)
   const [showResults, setShowResults] = useState(false);
   const [schoolRes, setSchoolRes] = useState([]);
   const [debouncedSchoolName, setDebouncedSchoolName] = useState("");
+  const { eduList, setEduList } = useContext(EduListContext)
 
   const [eduInfo, setEduInfo] = useState({
     schoolName: '',

@@ -12,7 +12,6 @@ function Welcome(){
        history.push({pathname:'/home', state:{name: name}})
    }
 
-
     return (
         <div id="welcome">
                 <div className="welcome-input">

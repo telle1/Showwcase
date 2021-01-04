@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {EduListContext} from '../EduListContext'
 import './sidebar.css'
 
-function SideBar({ eduList }){
+function SideBar(){
+
+    const {eduList} = useContext(EduListContext);
+    
     return (
       <React.Fragment>
         <h2>My Education</h2>

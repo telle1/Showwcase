@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import './home.css';
 import EduModal from '../EduModal/EduModal'
 import SideBar from './Sidebar'
 import EduEntry from './EduEntry'
-
+import { EduListContext } from '../EduListContext'
 
 function Home() {
   const location = useLocation();
-  const [name, setName] = useState(location.state.name)
   const [eduList, setEduList] = useState([])
 
   //Sort by newest education first
@@ -31,23 +30,25 @@ function Home() {
 
 
   return (
+    <EduListContext.Provider value={{eduList, setEduList}}>
     <section id='home'>
       <div className='education-header'>
-        <h1>{name}'s education showcase</h1>
-        <EduModal setEduList={setEduList} eduList={eduList}></EduModal>
+        <h1>{location.state.name}'s education showcase</h1>
+        <EduModal/>
       </div>
 
       <div className='education-wrapper'>
         <div className='side-bar'>
-          <SideBar eduList={eduList}/>
+          <SideBar/>
         </div>
         <div className='ed-item'>
           {eduList.map((eduItem,i) => 
-          <EduEntry key={i} eduItem={eduItem} eduList={eduList} setEduList={setEduList}/>
+          <EduEntry key={i} eduItem={eduItem}/>
           )}
         </div>
       </div>
     </section>
+    </EduListContext.Provider>
   );
 }
 
